@@ -21,7 +21,7 @@
 | 内部程序及插件版本 | `0.4.1` |
 | 构建标识 | `single-model-port-20261023-r5` |
 | 插件 ID | `api-balance-whale` |
-| 发行标签 | `single-model-r4` |
+| 发行标签 | `single-model-r5` |
 | 当前维护仓库 / 目标分支 | [RookieVENENO/Codex-Whale-Single-Model](https://github.com/RookieVENENO/Codex-Whale-Single-Model) / `main` |
 | Codex 移植基线 | [Yang-huai406/Codex-Whale-Public](https://github.com/Yang-huai406/Codex-Whale-Public) / `main` |
 | 原始 DSH 项目 | [MeteorNOX/DeepSeek-Balance-Whale-Widget](https://github.com/MeteorNOX/DeepSeek-Balance-Whale-Widget) / `main` |
