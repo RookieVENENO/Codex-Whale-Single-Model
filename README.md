@@ -1,20 +1,19 @@
 # API 余额小鲸鱼 · Codex 单模型增强版
 
+> [!NOTE]
 > **来源与移植声明**
 >
-> 本项目不是从零实现，也不是 OpenAI/Codex 官方组件。原始 DSH 小鲸鱼来自 [MeteorNOX/DeepSeek-Balance-Whale-Widget](https://github.com/MeteorNOX/DeepSeek-Balance-Whale-Widget)（MIT）；Codex 桌面移植基线来自 [Yang-huai406/Codex-Whale-Public](https://github.com/Yang-huai406/Codex-Whale-Public)（MIT）。当前分支在此基础上增加单模型所需功能，并保留原维护者、macOS PR #128 与贡献者署名。代码按 MIT 许可；“另需用户自行获取”的图片、动图和音效仍只适用原项目条款，不随代码 MIT 许可扩大授权。
+> 这不是从零手搓，也不是 OpenAI/Codex 官方盖章的钦定组件喵。原始 DSH 小鲸鱼来自 [MeteorNOX/DeepSeek-Balance-Whale-Widget](https://github.com/MeteorNOX/DeepSeek-Balance-Whale-Widget)（MIT），Codex 桌面移植基线来自 [Yang-huai406/Codex-Whale-Public](https://github.com/Yang-huai406/Codex-Whale-Public)（MIT）喵。当前分支只是在两位前辈打好的地基上继续添砖加瓦，并认真保留原作者、macOS PR #128 和各位贡献者的名字喵。代码走 MIT，但不属于 MIT 的素材仍要听原项目的规矩，不能因为套了件开源外套就假装自己拿到了全宇宙授权喵。
 
-> **素材边界：** 本仓库和 Release **不包含**原项目的角色图、动图、音效或展示图，只包含本项目自行绘制/生成的几何占位素材与静音占位音频。需要原版外观和声音的用户，必须自行运行 `scripts/fetch-upstream-assets.mjs`，从 MeteorNOX 原项目固定提交取得素材并遵守原项目条款。该脚本只在用户明确确认后运行，素材保存在被 Git 忽略的 `assets/upstream/`。
+> [!IMPORTANT]
+> **素材边界**
+>
+> 小鲸鱼真正运行时不会偷偷夹带原项目的角色图、动图、音效或展示图，默认只拿几何占位图和一段安静到能听见空气的 0.12 秒占位音频撑场面喵。README 封面是单独放置的公共 AI 表情包，只负责站台，不参与插件运行喵。想要原版美貌和声音，用户需要自己运行 `scripts/fetch-upstream-assets.mjs`，从 MeteorNOX 原项目的固定提交把素材请回家喵。脚本要先得到明确确认才开工，下载后会逐个核对哈希，再放进被 Git 忽略的 `assets/upstream/`，绝不偷偷混进公开仓库喵。原素材仍按原项目条款提供，本项目只负责指路，不负责替别人发许可证喵。
 
-> **项目性质与免责声明：** 这是一个因一时兴趣产生的非官方实验项目，开发过程主要由 DeepSeek-V4.1-FLASH-1017 全程 vibe coding，代码质量和架构不保证, 纯正屎山代码。虽然仓库内自动测试通过，但没有经过大范围真实设备、所有服务商和长期运行测试；下载、安装或使用即表示你理解并自行承担相关风险。软件按 MIT 许可的 “AS IS” 条款提供，不附带任何保证。
-
-<img width="240" height="240" alt="README 封面：用户提供的公共 AI 生成鲸鱼角色 GIF" src="./docs/readme/cover.gif" />
-
-封面 GIF 仅用于展示 README，不参与插件角色、托盘图标、气泡素材或发布 ZIP 的运行时资源。本项目未独立核实权利链，不声明其原创性或再许可，收到权利主张时将替换或移除。详见 [封面来源说明](docs/readme/SOURCES.md)。
-
-跟随 Codex 显示 API 余额、密钥额度、已观测消费和本机 token；也可查看 Codex 订阅额度快照，或作为独立桌面挂件使用。支持角色、动图、气泡、音效、拖动缩放和本地素材工坊。
-
-**当前源码构建为 `single-model-port-20261023-r5`。** 本构建只面向单模型使用场景，加入 MCP 会话租约、DeepSeek 赠金/充值拆分、默认气泡中的大字号彩色峰谷徽标与 `HH:MM:SS` 切换倒计时、随机图片、点按角色推进队列和手工余额校正；没有加入多模型钱包、Coding Plan 或等待授权提示。此前 `surface-audio-fix-20261007` 的 Windows 区域保护和连点音效修复继续保留。
+> [!WARNING]
+> **项目性质与免责声明**
+>
+> 这是一个因为一时兴趣突然长出来的非官方实验项目，开发过程主要由 DeepSeek-V4.1-FLASH-1017 全程 vibe coding，堪称“人负责许愿，AI 负责把愿望堆成屎山”喵。代码质量和架构没有经过正经建筑学审查，能跑、会跑、偶尔闹脾气都属于正常生态，请别拿企业级标准给小鲸鱼做思想品德考试喵。仓库里的自动测试是过了，但没经历过全世界设备、所有服务商和长时间连轴转的毒打，所以不能把“测试通过”当成宇宙和平保证喵。下载、安装或使用即视为你接受 MIT 的 AS IS 条款，所有风险和惊喜都由使用者自行签收喵。
 
 | 标识 | 当前值 |
 | --- | --- |
