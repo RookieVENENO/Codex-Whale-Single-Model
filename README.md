@@ -3,7 +3,7 @@
 > [!NOTE]
 > **来源与移植声明**
 >
-> 这不是从零手搓，也不是 OpenAI/Codex 官方盖章的钦定组件喵。原始 DSH 小鲸鱼来自 [MeteorNOX/DeepSeek-Balance-Whale-Widget](https://github.com/MeteorNOX/DeepSeek-Balance-Whale-Widget)（MIT），Codex 桌面移植基线来自 [Yang-huai406/Codex-Whale-Public](https://github.com/Yang-huai406/Codex-Whale-Public)（MIT）喵。当前分支只是在两位前辈打好的地基上继续添砖加瓦，并认真保留原作者、macOS PR #128 和各位贡献者的名字喵。代码走 MIT，但不属于 MIT 的素材仍要听原项目的规矩，不能因为套了件开源外套就假装自己拿到了全宇宙授权喵。
+> 这不是从零手搓，也不是 OpenAI/Codex 官方盖章的钦定组件喵。原始 DSH 小鲸鱼来自 [MeteorNOX/DeepSeek-Balance-Whale-Widget](https://github.com/MeteorNOX/DeepSeek-Balance-Whale-Widget)（MIT），Codex 桌面移植基线来自 [Yang-huai406/Codex-Whale-Public](https://github.com/Yang-huai406/Codex-Whale-Public)（MIT）喵。当前分支只是在两位前辈打好的地基上继续添砖加瓦，并认真保留原作者、macOS PR #128 和各位贡献者的名字喵。代码走 MIT，但不属于 MIT 的素材仍要听原项目的规矩，不能因为套了件开源外套就假装自己拿到了全宇宙授权喵---由主人指示写的喵
 
 > [!IMPORTANT]
 > **素材边界**
