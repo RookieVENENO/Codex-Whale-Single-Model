@@ -1,0 +1,97 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { execFile } from 'node:child_process';
+import { promisify } from 'node:util';
+import { DATA_HOME, readJson, writeJson } from './paths.mjs';
+import { bridgeRequest } from './bridge.mjs';
+
+export async function runningService(dataDir = DATA_HOME) {
+  try { const status = await bridgeRequest('/api/status', { dataDir, timeoutMs: 1500 }); return status.ok ? status : null; } catch { return null; }
+}
+export async function startSupervisor(dataDir = DATA_HOME) {
+  const config = readJson(path.join(dataDir, 'follow-config.json'), {});
+  if (process.platform === 'darwin') {
+    if (config.platform !== 'darwin' || !['follow-codex', 'standalone'].includes(config.mode) || config.enabled !== true || !config.label) {
+      throw new Error('请先运行 scripts/install-macos.mjs 安装 macOS 自动跟随');
+    }
+    const pause = path.join(dataDir, 'pause-until-host-exit.json');
+    if (fs.existsSync(pause)) fs.unlinkSync(pause);
+    const domain = 'gui/' + process.getuid();
+    try {
+      await promisify(execFile)('/bin/launchctl', ['kickstart', domain + '/' + config.label], { timeout: 10000 });
+    } catch {
+      throw new Error('macOS LaunchAgent 未能启动，请运行“安装 Mac 自动跟随.command”修复');
+    }
+    return;
+  }
+  if (config.taskName !== 'Codex API Balance Whale') throw new Error('请运行“安装自动跟随.cmd”以修复独立启动任务');
+  const pause = path.join(dataDir, 'pause-until-host-exit.json');
+  if (fs.existsSync(pause)) fs.unlinkSync(pause);
+  const scheduler = path.join(process.env.WINDIR || 'C:\\Windows', 'System32', 'schtasks.exe');
+  try { await promisify(execFile)(scheduler, ['/Run', '/TN', config.taskName], { windowsHide: true, timeout: 10000 }); }
+  catch { throw new Error('Windows 自动跟随任务未能启动，请运行“安装自动跟随.cmd”修复'); }
+}
+export async function ensureService({ dataDir = DATA_HOME } = {}) {
+  let running = await runningService(dataDir);
+  if (running) return running;
+  await startSupervisor(dataDir);
+  for (let i = 0; i < 30; i++) { await new Promise(r => setTimeout(r, 250)); running = await runningService(dataDir); if (running) return running; }
+  throw new Error('请先打开 Codex 桌面应用；挂件只跟随该应用运行');
+}
+export async function serviceRequest(route, options = {}) { return bridgeRequest(route, options); }
+export function mcpLifecycleEnabled(dataDir = DATA_HOME) {
+  const config = readJson(path.join(dataDir, 'follow-config.json'), {});
+  return config.lifecycleOwner === 'mcp' && config.mode !== 'standalone';
+}
+export async function activateMCPLifecycle({ dataDir = DATA_HOME } = {}) {
+  if (!mcpLifecycleEnabled(dataDir)) return null;
+  await ensureService({ dataDir });
+  const lease = await bridgeRequest('/api/leases/acquire', { method: 'POST', body: {}, dataDir });
+  if (!lease?.ok || typeof lease.id !== 'string') throw new Error('未能建立挂件会话租约');
+  await bridgeRequest('/api/show', { method: 'POST', dataDir });
+  return { ...lease, dataDir };
+}
+export async function heartbeatMCPLifecycle(lease) {
+  if (!lease?.id) return null;
+  return bridgeRequest('/api/leases/heartbeat', { method: 'POST', body: { id: lease.id }, dataDir: lease.dataDir, timeoutMs: 3000 });
+}
+export async function releaseMCPLifecycle(lease) {
+  if (!lease?.id) return null;
+  let released = null;
+  try { released = await bridgeRequest('/api/leases/release', { method: 'POST', body: { id: lease.id }, dataDir: lease.dataDir, timeoutMs: 3000 }); }
+  catch {}
+  if (released?.active === 0 && released.stopsInMs > 0 && process.platform === 'win32') {
+    // Preserve the reconnection grace period. A new chat can acquire a lease
+    // while this exiting MCP is still winding down; in that case the shared
+    // runtime and supervisor must stay alive.
+    await new Promise(resolve => setTimeout(resolve, Math.min(5000, released.stopsInMs + 100)));
+    try {
+      const status = await bridgeRequest('/api/status', { dataDir: lease.dataDir, timeoutMs: 1500 });
+      if (status?.ok !== false && Number(status?.lifecycle?.active) > 0) return released;
+    } catch {}
+    const config = readJson(path.join(lease.dataDir, 'follow-config.json'), {});
+    const script = path.join(config.pluginRoot || '', 'desktop', 'supervisor.ps1');
+    if (config.lifecycleOwner === 'mcp' && config.mode !== 'standalone' && script && fs.existsSync(script)) {
+      try {
+        await promisify(execFile)(config.powerShellPath || 'powershell.exe',
+          ['-NoLogo', '-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'Bypass', '-File', script, '-DataDir', lease.dataDir, '-Stop'],
+          { windowsHide: true, timeout: 10000 });
+      } catch {}
+    }
+  }
+  return released;
+}
+export async function launchDesktop({ dataDir = DATA_HOME, mode = null } = {}) {
+  if (mode != null && !['standalone', 'follow-codex'].includes(mode)) throw new Error('Invalid desktop mode');
+  if (mode) { const file = path.join(dataDir, 'follow-config.json'); writeJson(file, { ...readJson(file, {}), mode }); }
+  await ensureService({ dataDir });
+  if (mode) await bridgeRequest('/api/desktop-mode', { method: 'POST', body: { mode }, dataDir });
+  return bridgeRequest('/api/show', { method: 'POST', dataDir });
+}
+export function supervisorStatus(dataDir = DATA_HOME) {
+  const config = readJson(path.join(dataDir, 'follow-config.json'), {});
+  const installed = process.platform === 'darwin'
+    ? config.platform === 'darwin' && config.enabled === true && !!config.label
+    : config.taskName === 'Codex API Balance Whale';
+  return { installed, ...readJson(path.join(dataDir, 'supervisor-state.json'), {}) };
+}

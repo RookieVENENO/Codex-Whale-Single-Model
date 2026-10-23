@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <title>Abstract whale placeholder</title>
+  <ellipse cx="250" cy="255" rx="190" ry="142" fill="#6f8fd8"/>
+  <path d="M380 236c45-38 78-28 92-2-20 2-34 14-43 32 19 11 35 29 43 53-36-7-69-24-96-50z" fill="#4f6fb9"/>
+  <path d="M190 372c-6 38-28 62-62 77 6-35 17-61 42-82z" fill="#4f6fb9"/>
+  <circle cx="185" cy="220" r="19" fill="#17305e"/>
+  <circle cx="178" cy="213" r="6" fill="#ffffff"/>
+  <path d="M150 292c36 24 90 26 133 5" fill="none" stroke="#ffffff" stroke-width="10" stroke-linecap="round" opacity=".7"/>
+</svg>

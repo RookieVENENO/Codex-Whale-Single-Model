@@ -1,0 +1,7 @@
+# Third-party notices
+
+The current public repository and releases do **not** bundle upstream media. They ship only original geometric placeholders and silent placeholder audio. Users who want upstream art or sounds must obtain them directly from the original project after reviewing its terms; `assets/upstream/` is ignored by Git. Historical media distribution for the upstream Codex baseline remains described in [MATERIALS-PERMISSION.md](docs/MATERIALS-PERMISSION.md) and does not grant a new sublicense for this fork.
+
+- **dsh-whale-widget 0.3.0-beta**, Copyright (c) 2026 MeteorNOX. The upstream code is under the MIT License. Upstream images, GIFs and audio are not bundled in this fork; their separate terms are not expanded by this project. Substantial widget UI/host code is retained or adapted. See `LICENSE`, `PROVENANCE.md`, `assets/README.md` and `docs/UPSTREAM-README.md`.
+- **smol-toml 1.8.0**, Cynthia Rey and contributors, BSD-3-Clause. An unmodified copy of the published package is included in `vendor/smol-toml/`; see `vendor/smol-toml/LICENSE`. It is loaded directly so the Codex plugin does not require an npm install step.
+- **Electron 44.3.0**, Electron contributors, MIT License with bundled Chromium and third-party notices. Electron is downloaded separately by the optional desktop installer; its own license and notices are retained in the installed desktop runtime and are not replaced by this project's license.

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="220" viewBox="0 0 320 220">
+  <title>Abstract bubble placeholder</title>
+  <rect x="18" y="18" width="284" height="150" rx="75" fill="#ffffff" stroke="#203170" stroke-width="14"/>
+  <circle cx="88" cy="194" r="15" fill="#ffffff" stroke="#203170" stroke-width="10"/>
+  <circle cx="132" cy="207" r="8" fill="#ffffff" stroke="#203170" stroke-width="7"/>
+  <circle cx="112" cy="92" r="9" fill="#6f8fd8"/>
+  <circle cx="160" cy="92" r="9" fill="#6f8fd8"/>
+  <circle cx="208" cy="92" r="9" fill="#6f8fd8"/>
+</svg>
